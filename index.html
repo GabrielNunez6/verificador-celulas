@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificador de Fichas – Células</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #d0f0c0, #f0f8ff);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+      text-shadow: 1px 1px 2px #aaa;
+    }
+    #orgName {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #444;
+    }
+    .btn {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      border: none;
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 5px #999;
+    }
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px #666;
+    }
+    .animal { background-color: #4CAF50; }
+    .vegetal { background-color: #2196F3; }
+    .ambas { background-color: #FF9800; }
+    #resultado {
+      margin-top: 30px;
+      font-size: 2em;
+      font-weight: bold;
+    }
+    .correcto {
+      color: green;
+      animation: pop 0.3s ease;
+    }
+    .incorrecto {
+      color: red;
+      animation: shake 0.3s;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    img {
+      max-width: 150px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Verificador de Fichas – Células</h1>
+  <p id="orgName">Escanea una ficha...</p>
+  <img id="orgImg" src="" alt="" style="display:none;">
+  <div id="botones"></div>
+  <div id="resultado"></div>
+
+  <script>
+    const organelos = {
+      nucleo: ["animal", "vegetal"],
+      nucleolo: ["animal", "vegetal"],
+      mitocondria: ["animal", "vegetal"],
+      membrana: ["animal", "vegetal"],
+      citoplasma: ["animal", "vegetal"],
+      reticulo: ["animal", "vegetal"],
+      ribosomas: ["animal", "vegetal"],
+      golgi: ["animal", "vegetal"],
+      citoesqueleto: ["animal", "vegetal"],
+      vesiculas: ["animal", "vegetal"],
+      cloroplasto: ["vegetal"],
+      pared: ["vegetal"],
+      vacuola: ["vegetal"],
+      plasmodesmos: ["vegetal"],
+      lisosoma: ["animal"],
+      centriolo: ["animal"],
+      cilios: ["animal"],
+      flagelo: ["animal"]
+    };
+
+    // Puedes poner imágenes para cada organelo si quieres
+    const organeloImg = {
+      nucleo: "https://i.imgur.com/WYp8ZzA.png",
+      nucleolo: "https://i.imgur.com/6vJ7HbF.png",
+      mitocondria: "https://i.imgur.com/4NXPdHo.png",
+      membrana: "https://i.imgur.com/Y5nK2jB.png",
+      citoplasma: "https://i.imgur.com/RyHbO1x.png",
+      reticulo: "https://i.imgur.com/ZwqJ5tM.png",
+      ribosomas: "https://i.imgur.com/Bc6O6dQ.png",
+      golgi: "https://i.imgur.com/xPjXj5d.png",
+      citoesqueleto: "https://i.imgur.com/w6L6XDH.png",
+      vesiculas: "https://i.imgur.com/7EYZB2f.png",
+      cloroplasto: "https://i.imgur.com/9lM2H8m.png",
+      pared: "https://i.imgur.com/DQ4uVhB.png",
+      vacuola: "https://i.imgur.com/FBuN8Pl.png",
+      plasmodesmos: "https://i.imgur.com/3v9M8Xe.png",
+      lisosoma: "https://i.imgur.com/1L1qU8h.png",
+      centriolo: "https://i.imgur.com/Y6R6e3S.png",
+      cilios: "https://i.imgur.com/6ZsG0Xd.png",
+      flagelo: "https://i.imgur.com/K1oP5k9.png"
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const orgKey = params.get("org")
